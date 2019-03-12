@@ -10,12 +10,12 @@ of Postscript.
 
 ** mkbar
 
-#+BEGIN-EXAMPLE
+#+BEGIN_EXAMPLE
 $ sudo aureport -s -i --summary  | bash ./mkbar syscall
 $ sudo aureport -f -i --summary --failed | bash ./mkbar failed-access
 $ sudo aureport -e -i --summary | egrep -vi '(syscall|change)'
 $ sudo aureport -e -i --summary | egrep -vi '(syscall|change)' | bash ./mkbar events2
-#+END-EXAMPLE
+#+END_EXAMPLE
 
 *** Results
 
@@ -28,3 +28,22 @@ $ sudo aureport -e -i --summary | egrep -vi '(syscall|change)' | bash ./mkbar ev
  * Audit Events
  [[./events2.png]]
 
+** mkgraph
+
+ * Syscall usage of processes
+#+BEGIN_EXAMPLE
+$ sudo aureport -s -i | awk '/^[0-9]/ { printf "%s %s\n", $6, $4 }' | sort | uniq | bash ./mkgraph
+Graph was written to gr.png
+#+END_EXAMPLE
+ * which user executes which processes
+#+BEGIN_EXAMPLE
+sudo aureport -u -i | awk '/^[0-9]/ { printf "%s %s\n", $4, $7 }' | sort | uniq | bash ./mkgraph
+#+END_EXAMPLE
+ * who accesses which files
+#+BEGIN_EXAMPLE
+sudo aureport -f -i | awk '/^[0-9]/ { printf "%s %s\n", $8, $4 }' | sort | uniq | bash ./mkgraph
+#+END_EXAMPLE
+
+ * Example
+
+ [[./gr.png]]
