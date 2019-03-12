@@ -1,0 +1,30 @@
+This repository contains scripts that visualize data coming from the
+Linux audit subsystem. The scripts are originally from Steve Grubb
+<sgrubb@redhat.com> and can be found at https://people.redhat.com/sgrubb/audit/visualize/.
+
+This scripts have been adapted to work with modern versions of
+[[http://www.gnuplot.info/][GNUPlot]] and to write png files instead
+of Postscript.
+
+* Examples
+
+** mkbar
+
+#+BEGIN-EXAMPLE
+$ sudo aureport -s -i --summary  | bash ./mkbar syscall
+$ sudo aureport -f -i --summary --failed | bash ./mkbar failed-access
+$ sudo aureport -e -i --summary | egrep -vi '(syscall|change)'
+$ sudo aureport -e -i --summary | egrep -vi '(syscall|change)' | bash ./mkbar events2
+#+END-EXAMPLE
+
+*** Results
+
+ * Syscalls
+ [[./syscall.png]]
+
+ * Failed Filesystem Access
+ [[./failed-access.png]]
+
+ * Audit Events
+ [[./events2.png]]
+
